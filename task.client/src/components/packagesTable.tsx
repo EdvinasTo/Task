@@ -1,8 +1,8 @@
 import ReusableTable from './table';
 import type { Package } from '../types/package';
-import statusTransitions from '../constants/statusTransitions';
 import FINAL_STATUSES from '../constants/finalStatuses';
 import { columns } from '../constants/packageListColumns'
+import CustomButton from './button';
 
 const mockPackages: Package[] = [
     {
@@ -117,7 +117,6 @@ interface PackageListTableProps {
 
 function canChangeStatus(status: string): boolean {
     return !FINAL_STATUSES.includes(status);
-        //&& (statusTransitions[status]?.length ?? 0) > 0;
 }
 
 export default function PackageListTable({ rows }: PackageListTableProps) {
@@ -128,12 +127,12 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
             rowKey="id"
             emptyMessage="No packages found."
             actions={(row) => (
-                <button
+                <CustomButton
                     onClick={() => alert(`Change status for ${row.id}`)}
                     disabled={!canChangeStatus(row.status)}
-                >
-                    Change Status
-                </button>
+                    label="Change Status"
+                    color="inherit"
+                />
             )}
         />
     );
