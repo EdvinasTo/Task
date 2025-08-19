@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:53508",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\edvin\\Desktop\\Task\\Task.Server\\..\\task.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}
