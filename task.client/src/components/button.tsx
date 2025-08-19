@@ -8,7 +8,7 @@ interface CustomButtonProps {
     color?: ButtonProps['color'];
 }
 
-export default function CustomButton({ label, onClick, disabled, color="success" }: CustomButtonProps) {
+export default function CustomButton({ label, onClick, disabled, color = "success" }: CustomButtonProps) {
     return (
         <Button
             disabled={disabled}
