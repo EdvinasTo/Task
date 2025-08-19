@@ -9,3 +9,13 @@ th, td {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+
+h1 {
+    padding-top: 2rem;
+}
+
+.button-container {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: flex-end;
+}
