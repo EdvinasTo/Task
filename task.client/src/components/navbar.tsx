@@ -12,33 +12,48 @@ import ListItemText from '@mui/material/ListItemText';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface Props {
     window?: () => Window;
 }
 
 const drawerWidth = 240;
-const navItems = ['Packages', 'Details', 'Create Package'];
+const navItems = [
+    { label: 'Packages', path: '/' },
+    { label: 'Create Package', path: '/create' },
+    { label: 'Package Details', path: '/details' }
+];
 
 export default function DrawerAppBar(props: Props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
     };
 
+    const handleNavigation = (path: string) => {
+        navigate(path);
+    };
+
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
             <Typography variant="h6" sx={{ my: 2 }}>
-                MUI
+                Package Manager
             </Typography>
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
-                        <ListItemButton sx={{ textAlign: 'center' }}>
-                            <ListItemText primary={item} />
+                    <ListItem key={item.label} disablePadding>
+                        <ListItemButton
+                            sx={{ textAlign: 'center' }}
+                            onClick={() => handleNavigation(item.path)}
+                            selected={location.pathname === item.path}
+                        >
+                            <ListItemText primary={item.label} />
                         </ListItemButton>
                     </ListItem>
                 ))}
@@ -51,7 +66,7 @@ export default function DrawerAppBar(props: Props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-            <AppBar component="nav">
+            <AppBar component="nav" position="fixed">
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -66,25 +81,29 @@ export default function DrawerAppBar(props: Props) {
                         component="div"
                         sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                     >
-                        MUI
+                        Package Manager
                     </Typography>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
-                            <Button key={item} sx={{ color: '#fff' }}>
-                                {item}
+                            <Button
+                                key={item.label}
+                                sx={{ color: '#fff' }}
+                                onClick={() => handleNavigation(item.path)}
+                            >
+                                {item.label}
                             </Button>
                         ))}
                     </Box>
                 </Toolbar>
             </AppBar>
-            <nav>
+            <Box component="nav">
                 <Drawer
                     container={container}
                     variant="temporary"
                     open={mobileOpen}
                     onClose={handleDrawerToggle}
                     ModalProps={{
-                        keepMounted: true, // Better open performance on mobile.
+                        keepMounted: true,
                     }}
                     sx={{
                         display: { xs: 'block', sm: 'none' },
@@ -93,7 +112,7 @@ export default function DrawerAppBar(props: Props) {
                 >
                     {drawer}
                 </Drawer>
-            </nav>
+            </Box>
         </Box>
     );
 }
