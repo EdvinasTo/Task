@@ -87,11 +87,7 @@ export default function DrawerAppBar(props: Props) {
                         {navItems.map((item) => (
                             <Button
                                 key={item.label}
-                                sx={{
-                                    color: '#fff',
-                                    backgroundColor: location.pathname === item.path ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-                                    mx: 0.5
-                                }}
+                                sx={{ color: '#fff' }}
                                 onClick={() => handleNavigation(item.path)}
                             >
                                 {item.label}
