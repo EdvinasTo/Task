@@ -9,7 +9,6 @@ import '../components/personalInfo/personalInfo.css';
 function DetailsPage() {
     return (
         <>
-            <Navbar />
             //for now it doesnt do anything
             <SearchBar onSearch={() => { }} />
             <PersonalInformation

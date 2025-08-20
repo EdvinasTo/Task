@@ -1,7 +1,6 @@
 import React from 'react';
 import './personalInfo.css'
 
-// Define TypeScript interface
 interface PersonalInfo {
   label: string
   name: string;
@@ -9,15 +8,7 @@ interface PersonalInfo {
   phone: string;
 }
 
-// PersonalInformation Component
 const PersonalInformation: React.FC<PersonalInfo> = ({ label, name, address, phone}: PersonalInfo) => {
-  // Sample data
-  //const userInfo: PersonalInfo = {
-  //  label: 'Sender',
-  //  name: 'John Smith',
-  //  address: '123 Main Street, New York, NY 10001',
-  //  phone: '(555) 123-4567'
-  //};
 
   return (
     <div className='container'>
