@@ -7,10 +7,10 @@ function DetailsPage() {
     return (
         <>
             <Navbar />
-            <h1>details</h1>
+            <h1>Details</h1>
             <PackageHistoryTable rows={[]} />
             <div className="button-container">
-                <CustomButton label={'Create Package'} />
+                <CustomButton label={'Change Status'} />
             </div>
         </>
     );
