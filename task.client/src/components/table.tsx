@@ -24,6 +24,7 @@ export interface Props<T = unknown> {
     actions?: (row: T) => React.ReactNode;
     onRowClick?: (row: T) => void;
     emptyMessage?: string;
+    enablePagination?: boolean;
 }
 
 export function ReusableTable<T>({
@@ -34,16 +35,16 @@ export function ReusableTable<T>({
     actions,
     onRowClick,
     emptyMessage = 'No data found.',
+    enablePagination = true,
 }: Props<T>) {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(
         pagination.initialRowsPerPage || 10
     );
 
-    const pagedRows = rows.slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-    );
+    const displayedRows = enablePagination
+        ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        : rows;
 
     const handleChangePage = (_: unknown, newPage: number) => setPage(newPage);
 
@@ -73,7 +74,7 @@ export function ReusableTable<T>({
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {pagedRows.length === 0 ? (
+                        {displayedRows.length === 0 ? (
                             <TableRow>
                                 <TableCell colSpan={columns.length + (actions ? 1 : 0)}>
                                     <Box py={3}>
@@ -84,7 +85,7 @@ export function ReusableTable<T>({
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            pagedRows.map((row) => (
+                            displayedRows.map((row) => (
                                 <TableRow
                                     hover
                                     key={String(row[rowKey])}
@@ -108,15 +109,17 @@ export function ReusableTable<T>({
                     </TableBody>
                 </Table>
             </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={pagination.rowsPerPageOptions || [10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {enablePagination && (
+                <TablePagination
+                    rowsPerPageOptions={pagination.rowsPerPageOptions || [10, 25, 100]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+            )}
         </Paper>
     );
 }
