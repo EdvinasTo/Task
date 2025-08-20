@@ -1,0 +1,56 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+    padding-bottom: 1rem;
+}
+
+.header {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 30px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.personal-info {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.field {
+    flex: 1;
+    min-width: 0;
+}
+
+.label {
+    font-size: 0.9rem;
+    color: #718096;
+    margin-bottom: 8px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.value {
+    font-size: 1rem;
+    color: #2d3748;
+    padding: 12px;
+    background-color: #f7fafc;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+}
