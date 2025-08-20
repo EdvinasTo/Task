@@ -6,7 +6,6 @@ import '../App.css';
 function PackageListPage() {
     return (
         <>
-            <Navbar />
             <h1>Package List</h1>
             <PackageListTable rows={[]} />
             <div className="button-container">
