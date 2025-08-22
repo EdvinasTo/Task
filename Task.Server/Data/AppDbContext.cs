@@ -17,6 +17,8 @@ namespace Task.Server.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Person>().OwnsOne(p => p.PersonInfo);
+
             modelBuilder.Entity<Package>()
                 .HasOne(p => p.Sender)
                 .WithMany()
