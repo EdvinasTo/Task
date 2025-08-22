@@ -7,17 +7,17 @@ namespace Task.Server.Models
         [Required]
         [MinLength(10)]
         [MaxLength(50)]
-        public string SenderName { get; set; } = string.Empty;
+        public string Name { get; set; }
 
         [Required]
         [MinLength(10)]
         [MaxLength(100)]
-        public string SenderAddress { get; set; } = string.Empty;
+        public string Address { get; set; }
 
         [Required]
         [Phone]
         [MinLength(10)]
         [MaxLength(16)]
-        public string SenderPhone { get; set; } = string.Empty;
+        public string Phone { get; set; }
     }
 }
