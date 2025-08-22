@@ -5,6 +5,7 @@ import '../App.css';
 import SearchBar from '../components/searchBar/searchBar';
 import PersonalInformation from '../components/personalInfo/personalInfo';
 import '../components/personalInfo/personalInfo.css';
+import CurrentStatusCard from '../components/currentStatusCard';
 
 function DetailsPage() {
     return (
@@ -23,11 +24,9 @@ function DetailsPage() {
                 address='123 Main Street, New York, NY 10001'
                 phone='(555) 123-4567'
             />
+            <CurrentStatusCard status="Created" date="2025-08-22 18:22:22"/>
             <h2 className='header'>Package History</h2>
             <PackageHistoryTable rows={[]} />
-            <div className="button-container">
-                <CustomButton label={'Change Status'} />
-            </div>
         </>
     );
 }
