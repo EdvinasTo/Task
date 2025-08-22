@@ -3,7 +3,7 @@ using Task.Server.Models.Enums;
 
 namespace Task.Server.Models.ResponseDtos
 {
-    public class Package
+    public class PackageResponseDto
     {
         public int Id { get; set; }
 
