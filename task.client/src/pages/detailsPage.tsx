@@ -6,35 +6,31 @@ import PersonalInformation from '../components/personalInfo/personalInfo';
 import '../components/personalInfo/personalInfo.css';
 import CurrentStatusCard from '../components/currentStatusCard';
 import { packagesApi } from '../api/packagesApi';
-import type { PackageDetails } from '../types/packageDetails';
+import { useQuery } from '@tanstack/react-query';
 
 function DetailsPage() {
-    const [packageDetails, setPackageDetails] = useState<PackageDetails | null>(null);
-    const [trackingId, setTrackingId] = useState<string>('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [trackingId, setTrackingId] = useState<number | null>(null);
+
+    const {
+        data: packageDetails,
+        isLoading,
+        error
+    } = useQuery({
+        queryKey: [trackingId],
+        queryFn: () => packagesApi.getPackageById(trackingId!),
+        enabled: trackingId !== null,
+    });
 
     const handleSearch = async (searchId: string) => {
-        setLoading(true);
-        setError(null);
-        setTrackingId(searchId); 
-        try {
-            const result = await packagesApi.getPackageById(Number(searchId));
-            setPackageDetails(result);
-        } catch (err: any) {
-            setError('Package not found.');
-            setPackageDetails(null);
-        } finally {
-            setLoading(false);
-        }
+        setTrackingId(Number(searchId)); 
     };
 
     return (
         <>
             <SearchBar onSearch={handleSearch} />
 
-            {loading && <p>Loading...</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {isLoading && <p>Loading...</p>}
+            {error && <p style={{ color: 'red' }}>Package not found</p>}
 
             {packageDetails && (
                 <>

@@ -9,15 +9,16 @@ interface ConfirmDialogProps {
     title: string;
     onConfirm: () => void;
     onCancel: () => void;
+    loading?: boolean;
 }
 
-const ConfirmationDialog: React.FC<ConfirmDialogProps> = ({ open, title, onConfirm, onCancel }) => {
+const ConfirmationDialog: React.FC<ConfirmDialogProps> = ({ open, title, onConfirm, onCancel, loading = false }) => {
     return (
         <Dialog open={open} onClose={onCancel} maxWidth="xs" fullWidth>
             <DialogTitle>{title}</DialogTitle>
             <DialogActions>
-                <Button onClick={onCancel} color="inherit">Cancel</Button>
-                <Button onClick={onConfirm} color="primary" variant="contained">Confirm</Button>
+                <Button onClick={onCancel} color="inherit" disabled={loading}>Cancel</Button>
+                <Button onClick={onConfirm} color="primary" variant="contained" disabled={loading}>{loading ? 'Updating...' : 'Confirm'}</Button>
             </DialogActions>
         </Dialog>
     );

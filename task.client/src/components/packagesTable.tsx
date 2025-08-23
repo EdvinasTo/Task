@@ -5,6 +5,9 @@ import { columns } from '../constants/packageListColumns'
 import CustomButton from './button';
 import StatusChangeDialog from './statusChangeDialog';
 import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { packagesApi } from '../api/packagesApi';
+import type { Status } from '../types/status';
 
 interface PackageListTableProps {
     rows: Package[];
@@ -18,6 +21,16 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
+    const queryClient = useQueryClient();
+
+    const updateStatusMutation = useMutation({
+        mutationFn: ({ packageId, newStatus }: { packageId: number; newStatus: Status }) =>
+            packagesApi.updatePackageStatus(packageId, newStatus),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['packages'] });
+        },
+    });
+
     const handleOpenDialog = (pkg: Package) => {
         setSelectedPackage(pkg);
         setDialogOpen(true);
@@ -28,8 +41,20 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
         setSelectedPackage(null);
     };
 
-    const handleStatusChange = () => {
-        handleCloseDialog();
+    const handleStatusChange = (newStatus: Status) => {
+        if (!selectedPackage) return;
+
+        updateStatusMutation.mutate(
+            { packageId: selectedPackage.id, newStatus },
+            {
+                onSuccess: () => {
+                    handleCloseDialog();
+                },
+                onError: (error) => {
+                    console.error('Failed to update status:', error);
+                }
+            }
+        );
     };
 
     return (
@@ -56,6 +81,7 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
                     currentStatus={selectedPackage.status}
                     onClose={handleCloseDialog}
                     onStatusChange={handleStatusChange}
+                    loading={updateStatusMutation.isPending}
                 />
             )}
         </>
