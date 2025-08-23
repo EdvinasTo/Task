@@ -3,7 +3,7 @@ import type { Package } from '../types/package';
 import FINAL_STATUSES from '../constants/finalStatuses';
 import { columns } from '../constants/packageListColumns'
 import CustomButton from './button';
-import StatusChangeDialog from './dialog';
+import StatusChangeDialog from './statusChangeDialog';
 import { useState } from 'react';
 
 interface PackageListTableProps {
@@ -28,9 +28,7 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
         setSelectedPackage(null);
     };
 
-    const handleStatusChange = (newStatus: string) => {
-        //for now api isnt connected so just leave it at that
-        console.log(`Changing status for package ${selectedPackage?.id} to ${newStatus}`);
+    const handleStatusChange = () => {
         handleCloseDialog();
     };
 

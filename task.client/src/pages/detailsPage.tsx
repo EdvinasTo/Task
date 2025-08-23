@@ -10,14 +10,16 @@ import type { PackageDetails } from '../types/packageDetails';
 
 function DetailsPage() {
     const [packageDetails, setPackageDetails] = useState<PackageDetails | null>(null);
+    const [trackingId, setTrackingId] = useState<string>('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const handleSearch = async (trackingId: string) => {
+    const handleSearch = async (searchId: string) => {
         setLoading(true);
         setError(null);
+        setTrackingId(searchId); 
         try {
-            const result = await packagesApi.getPackageById(Number(trackingId));
+            const result = await packagesApi.getPackageById(Number(searchId));
             setPackageDetails(result);
         } catch (err: any) {
             setError('Package not found.');
@@ -26,8 +28,6 @@ function DetailsPage() {
             setLoading(false);
         }
     };
-
-
 
     return (
         <>
@@ -54,6 +54,7 @@ function DetailsPage() {
 
                     {packageDetails.packageHistory.length > 0 && (
                         <CurrentStatusCard
+                            packageId={Number(trackingId)}
                             status={packageDetails.packageHistory.at(-1)!.status}
                             date={new Date(packageDetails.packageHistory.at(-1)!.date).toLocaleString()}
                         />

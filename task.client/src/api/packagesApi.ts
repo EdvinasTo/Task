@@ -22,7 +22,7 @@ export const packagesApi= {
     },
 
     updatePackageStatus: async (id: number, status: Status): Promise<PackageDetails> => {
-        const response = await axiosInstance.patch<PackageDetails>(`/packages/${id}/status`, { status });
+        const response = await axiosInstance.post<PackageDetails>(`/packages/${id}/status`, { status });
         return response.data;
     }
 };
