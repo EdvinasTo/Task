@@ -77,7 +77,7 @@ namespace Task.Server.Controllers
             }
         }
 
-        [HttpPut("{id}/status")]
+        [HttpPost("{id}/status")]
         public async Task<ActionResult<PackageDetailsResponseDto>> UpdatePackageStatus(
             int id,
             [FromBody] UpdatePackageStatusRequestDto request)
