@@ -7,6 +7,7 @@ import FINAL_STATUSES from '../constants/finalStatuses';
 import type { Status } from '../types/status';
 import { packagesApi } from '../api/packagesApi';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useSnackbar } from '../hooks/useSnackbar';
 
 interface StatusInfo {
     packageId: number;
@@ -17,12 +18,17 @@ interface StatusInfo {
 const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, packageId }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const queryClient = useQueryClient();
+    const { showSnackbar } = useSnackbar();
 
     const updateStatusMutation = useMutation({
         mutationFn: ({ packageId, newStatus }: { packageId: number; newStatus: Status }) =>
             packagesApi.updatePackageStatus(packageId, newStatus),
-        onSuccess: () => {
+        onSuccess: (data, { packageId, newStatus }) => {
             queryClient.invalidateQueries({ queryKey: [packageId] });
+            showSnackbar(`Package ${packageId} status updated to "${newStatus}" successfully!`, 'success');
+        },
+        onError: (error, { packageId }) => {
+            showSnackbar(`Failed to update status for package ${packageId}. Please try again.`, 'error');
         },
     });
 
@@ -50,17 +56,19 @@ const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, packageId }) =>
                 <div className="card">
                     <div className="personal-info">
                         <div className="label">Status</div>
-                        <div className="value" style={{
-                            backgroundColor: statusColors[status] ?? '#ccc',
-                            color: '#fff',
-                            padding: '4px 10px',
-                            borderRadius: '6px',
-                            display: 'inline-block',
-                            minWidth: '80px',
-                            textAlign: 'center',
-                            fontWeight: 500
-                        }}>
-                            {status}
+                        <div className="value">
+                            <div style={{
+                                backgroundColor: statusColors[status] ?? '#ccc',
+                                color: '#fff',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                display: 'inline-block',
+                                minWidth: '80px',
+                                textAlign: 'center',
+                                fontWeight: 500
+                            }}>
+                                {status}
+                            </div>
                         </div>
                     </div>
 

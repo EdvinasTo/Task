@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { packagesApi } from '../api/packagesApi';
 import type { Status } from '../types/status';
+import { useSnackbar } from '../hooks/useSnackbar';
 
 interface PackageListTableProps {
     rows: Package[];
@@ -22,12 +23,17 @@ export default function PackageListTable({ rows }: PackageListTableProps) {
     const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
     const queryClient = useQueryClient();
+    const { showSnackbar } = useSnackbar();
 
     const updateStatusMutation = useMutation({
         mutationFn: ({ packageId, newStatus }: { packageId: number; newStatus: Status }) =>
             packagesApi.updatePackageStatus(packageId, newStatus),
-        onSuccess: () => {
+        onSuccess: (data, { packageId, newStatus }) => {
             queryClient.invalidateQueries({ queryKey: ['packages'] });
+            showSnackbar(`Package ${packageId} status updated to "${newStatus}" successfully!`, 'success');
+        },
+        onError: (error, { packageId }) => {
+            showSnackbar(`Failed to update status for package ${packageId}. Please try again.`, 'error');
         },
     });
 
