@@ -5,16 +5,26 @@ import { statusColors } from '../constants/statusColors';
 import StatusChangeDialog from './statusChangeDialog';
 import FINAL_STATUSES from '../constants/finalStatuses';
 import type { Status } from '../types/status';
+import { packagesApi } from '../api/packagesApi';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface StatusInfo {
     packageId: number;
     status: Status;
     date: string;
-    onStatusChange?: (newStatus: Status) => void;
 }
 
-const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, onStatusChange, packageId }) => {
+const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, packageId }) => {
     const [dialogOpen, setDialogOpen] = useState(false);
+    const queryClient = useQueryClient();
+
+    const updateStatusMutation = useMutation({
+        mutationFn: ({ packageId, newStatus }: { packageId: number; newStatus: Status }) =>
+            packagesApi.updatePackageStatus(packageId, newStatus),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: [packageId] });
+        },
+    });
 
     const isFinalStatus = FINAL_STATUSES.includes(status);
     const isButtonDisabled = isFinalStatus;
@@ -23,10 +33,14 @@ const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, onStatusChange,
     const handleCloseDialog = () => setDialogOpen(false);
 
     const handleStatusChange = (newStatus: Status) => {
-        if (onStatusChange) {
-            onStatusChange(newStatus); 
-        }
-        handleCloseDialog();
+        updateStatusMutation.mutate(
+            { packageId, newStatus },
+            {
+                onSuccess: () => {
+                    handleCloseDialog();
+                }
+            }
+        );
     };
 
     return (
@@ -71,6 +85,7 @@ const CurrentStatusCard: React.FC<StatusInfo> = ({ status, date, onStatusChange,
                 currentStatus={status}
                 onClose={handleCloseDialog}
                 onStatusChange={handleStatusChange}
+                loading={updateStatusMutation.isPending}
             />
         </>
     );

@@ -1,31 +1,17 @@
-import { useEffect, useState } from 'react';
 import CustomButton from '../components/button';
 import PackageListTable from '../components/packagesTable';
 import { packagesApi } from '../api/packagesApi';
-import type { Package } from '../types/package';
 import '../App.css';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 function PackageListPage() {
-    const [packages, setPackages] = useState<Package[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchPackages = async () => {
-            try {
-                const data = await packagesApi.getAllPackages();
-                setPackages(data);
-            } catch (err) {
-                setError("Failed to load packages.");
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPackages();
-    }, []);
+    const { data: packages = [], isLoading, error } = useQuery({
+        queryKey: ['packages'],
+        queryFn: () => packagesApi.getAllPackages(),
+    });
 
     
 
@@ -36,10 +22,10 @@ function PackageListPage() {
     return (
         <>
             <h1>Package List</h1>
-            {loading ? (
+            {isLoading ? (
                 <p>Loading...</p>
             ) : error ? (
-                <p style={{ color: "red" }}>{error}</p>
+                <p style={{ color: "red" }}>{error.message}</p>
             ) : (
                 <PackageListTable rows={packages} />
             )}

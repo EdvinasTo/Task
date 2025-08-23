@@ -10,7 +10,6 @@ import type { Status } from '../types/status';
 import statusTransitions from '../constants/statusTransitions';
 import { statusColors } from '../constants/statusColors';
 import ConfirmationDialog from './confirmationDialog';
-import { packagesApi } from '../api/packagesApi';
 
 interface StatusChangeDialogProps {
     open: boolean;
@@ -18,6 +17,7 @@ interface StatusChangeDialogProps {
     packageId?: number;
     onClose: () => void;
     onStatusChange: (newStatus: Status) => void;
+    loading?: boolean;
 }
 
 const StatusChangeDialog: React.FC<StatusChangeDialogProps> = ({
@@ -25,7 +25,8 @@ const StatusChangeDialog: React.FC<StatusChangeDialogProps> = ({
     currentStatus,
     onClose,
     onStatusChange,
-    packageId
+    packageId,
+    loading = false
 }) => {
     const [confirmOpen, setConfirmOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState<Status | null>(null);
@@ -37,16 +38,10 @@ const StatusChangeDialog: React.FC<StatusChangeDialogProps> = ({
         setConfirmOpen(true);
     };
 
-    const handleConfirmChange = async () => {
-        if (!packageId || !selectedStatus) return;
-
-        try {
-            const updatedPackage = await packagesApi.updatePackageStatus(packageId, selectedStatus);
-            onStatusChange(selectedStatus);
-        } finally {
-            setConfirmOpen(false);
-            onClose();
-        }
+    const handleConfirmChange = () => {
+        if (!selectedStatus) return;
+        onStatusChange(selectedStatus);
+        setConfirmOpen(false);
     };
 
     return (
@@ -98,7 +93,7 @@ const StatusChangeDialog: React.FC<StatusChangeDialogProps> = ({
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={onClose} color="primary">
+                    <Button onClick={onClose} color="primary" disabled={loading}>
                         Cancel
                     </Button>
                 </DialogActions>
@@ -109,6 +104,7 @@ const StatusChangeDialog: React.FC<StatusChangeDialogProps> = ({
                 title={`Change status to "${selectedStatus}"?`}
                 onConfirm={handleConfirmChange}
                 onCancel={() => setConfirmOpen(false)}
+                loading={loading}
             />
         </>
     );
