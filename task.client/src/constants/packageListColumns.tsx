@@ -28,10 +28,10 @@ export const columns: TableColumn<Package>[] = [
             </Box>
         ),
     },
-    { id: 'sender', label: 'Sender', minWidth: 120 },
-    { id: 'recipient', label: 'Recipient', minWidth: 120 },
+    { id: 'senderName', label: 'Sender', minWidth: 120 },
+    { id: 'recipientName', label: 'Recipient', minWidth: 120 },
     {
-        id: 'createdAt',
+        id: 'dateTime',
         label: 'Created',
         minWidth: 140,
         format: (val) => (val ? new Date(val as string).toLocaleString() : ''),
