@@ -9,7 +9,7 @@ function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <SnackbarProvider> {/* Wrap with your provider */}
+            <SnackbarProvider>
                 <Navbar />
                 <Outlet />
             </SnackbarProvider>
