@@ -20,8 +20,8 @@ const personSchema = z.object({
 });
 
 const formSchema = z.object({
-    sender: personSchema,
-    recipient: personSchema,
+    senderInfo: personSchema,
+    recipientInfo: personSchema,
 });
 
 export default formSchema;

@@ -1,5 +1,3 @@
-import CustomButton from '../components/button';
-import Navbar from '../components/navbar';
 import PackageHistoryTable from '../components/packageHistoryTable';
 import '../App.css';
 import SearchBar from '../components/searchBar/searchBar';

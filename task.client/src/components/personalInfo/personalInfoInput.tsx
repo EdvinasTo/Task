@@ -22,7 +22,7 @@ const PersonalInfoInput: React.FC<{ label: string }> = ({
                     <div className="label">Name</div>
                     <input
                         type="text"
-                        {...register(`${label.toLowerCase()}.name`)}
+                        {...register(`${label.toLowerCase()}Info.name`)}
                         className="value input"
                         placeholder={`Enter ${label.toLowerCase()} name`}
                     />
@@ -39,7 +39,7 @@ const PersonalInfoInput: React.FC<{ label: string }> = ({
                     <div className="label">Address</div>
                     <input
                         type="text"
-                        {...register(`${label.toLowerCase()}.address`)}
+                        {...register(`${label.toLowerCase()}Info.address`)}
                         className="value input"
                         placeholder={`Enter ${label.toLowerCase()} address`}
                     />
@@ -56,7 +56,7 @@ const PersonalInfoInput: React.FC<{ label: string }> = ({
                     <div className="label">Phone</div>
                     <input
                         type="text"
-                        {...register(`${label.toLowerCase()}.phone`)}
+                        {...register(`${label.toLowerCase()}Info.phone`)}
                         className="value input"
                         placeholder={`Enter ${label.toLowerCase()} phone`}
                     />
