@@ -72,6 +72,11 @@
     font-size: 0.8rem;
 }
 
-.input {
+input {
     width: 70%;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
 }
