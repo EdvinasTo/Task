@@ -23,7 +23,7 @@ const SenderRecipientForm: React.FC<Props> = ({ onSubmitData }) => {
 
     return (
         <FormProvider {...methods}>
-            <form className="container" onSubmit={methods.handleSubmit(onSubmit)}>
+            <form onSubmit={methods.handleSubmit(onSubmit)} className="form-container">
                 <PersonalInfoInput label="Sender" />
                 <PersonalInfoInput label="Recipient" />
 
