@@ -4,10 +4,24 @@ import type { PackageDetails } from '../types/packageDetails'
 import type { CreatePackageRequest } from '../types/createPackageRequest'
 import type { CreatePackageResponse } from '../types/createPackageResponse'
 import type { Status } from '../types/status';
+import type { PackageFilter } from '../types/packageFilter';
 
 export const packagesApi= {
-    getAllPackages: async (): Promise<Package[]> => {
-        const response = await axiosInstance.get<Package[]>('/packages');
+    getAllPackages: async (filter?: PackageFilter): Promise<Package[]> => {
+        const params = new URLSearchParams();
+
+        if (filter?.packageId) {
+            params.append('packageId', filter.packageId.toString());
+        }
+
+        if (filter?.status) {
+            params.append('status', filter.status);
+        }
+
+        const queryString = params.toString();
+        const url = queryString ? `/packages?${queryString}` : '/packages';
+
+        const response = await axiosInstance.get<Package[]>(url);
         return response.data;
     },
 

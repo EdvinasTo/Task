@@ -6,11 +6,13 @@ interface CustomButtonProps {
     onClick?: MouseEventHandler<HTMLButtonElement>;
     disabled?: boolean;
     color?: ButtonProps['color'];
+    type?: 'button' | 'submit';
 }
 
-export default function CustomButton({ label, onClick, disabled, color = "success" }: CustomButtonProps) {
+export default function CustomButton({ type = 'button', label, onClick, disabled, color = "success" }: CustomButtonProps) {
     return (
         <Button
+            type={type}
             disabled={disabled}
             variant="contained"
             color={color}
