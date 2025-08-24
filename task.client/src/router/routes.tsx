@@ -3,6 +3,7 @@ import App from '../App';
 import PackageListPage from '../pages/packageListPage.tsx';
 import DetailsPage from '../pages/detailsPage.tsx';
 import CreatePackagePage from '../pages/createPackagePage.tsx';
+import NotFoundPage from '../pages/notFoundPage.tsx';
 
 export const router = createBrowserRouter([
     {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
             {
                 path: 'create',
                 element: <CreatePackagePage />
+            },
+            {
+                path: '*',
+                element: <NotFoundPage/>
             },
         ],
     },
