@@ -1,2 +1,0 @@
-C:\Users\edvin\Desktop\Task\task.client\obj\Debug\task.client.esproj.CoreCompileInputs.cache
-C:\Users\edvin\Desktop\internship task\Task\task.client\obj\Debug\task.client.esproj.CoreCompileInputs.cache
