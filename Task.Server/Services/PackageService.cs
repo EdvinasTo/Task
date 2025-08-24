@@ -43,14 +43,30 @@ namespace Task.Server.Services
             return PackageMapper.ToResponseDto(packageWithIncludes);
         }
 
-        public async Task<PackageResponseDto[]> GetAllPackagesAsync()
+        public async Task<PackageResponseDto[]> GetAllPackagesAsync(PackageFilterRequestDto? filter = null)
         {
-            var packages = await _context.Packages
+            var query = _context.Packages
                 .Include(p => p.Sender)
                 .Include(p => p.Recipient)
                 .Include(p => p.History)
-                .ToListAsync();
+                .AsQueryable();
 
+            if (filter != null)
+            {
+                if (filter.PackageId.HasValue)
+                {
+                    query = query.Where(p => p.Id.ToString().Contains(filter.PackageId.Value.ToString()));
+                }
+
+                if (filter.Status.HasValue)
+                {
+                    query = query.Where(p => p.History
+                        .OrderByDescending(h => h.Date)
+                        .First().Status == filter.Status.Value);
+                }
+            }
+
+            var packages = await query.ToListAsync();
             return packages.Select(PackageMapper.ToResponseDto).ToArray();
         }
 

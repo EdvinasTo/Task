@@ -46,11 +46,11 @@ namespace Task.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PackageResponseDto[]>> GetAllPackages()
+        public async Task<ActionResult<PackageResponseDto[]>> GetAllPackages([FromQuery] PackageFilterRequestDto? filter = null)
         {
             try
             {
-                var result = await _packageService.GetAllPackagesAsync();
+                var result = await _packageService.GetAllPackagesAsync(filter);
                 return Ok(result);
             }
             catch (Exception ex)

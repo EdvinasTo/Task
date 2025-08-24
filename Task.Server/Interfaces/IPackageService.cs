@@ -8,7 +8,7 @@ namespace Task.Server.Interfaces
     public interface IPackageService
     {
         Task<PackageResponseDto> CreatePackageAsync(CreatePackageRequestDto request);
-        Task<PackageResponseDto[]> GetAllPackagesAsync();
+        Task<PackageResponseDto[]> GetAllPackagesAsync(PackageFilterRequestDto? filter = null);
         Task<PackageDetailsResponseDto> GetPackageDetailsAsync(int packageId);
         Task<PackageDetailsResponseDto> UpdatePackageStatusAsync(int packageId, PackageStatus status);
     }
