@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CustomButton from '../components/button';
 import PackageListTable from '../components/packagesTable';
-import PackageFilterComponent from '../components/packageFilter';
+import PackageFilterComponent from '../components/packageFilter/packageFilter';
 import { packagesApi } from '../api/packagesApi';
 import type { PackageFilter } from '../types/packageFilter';
 import '../App.css';

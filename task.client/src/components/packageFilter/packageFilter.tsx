@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import CustomButton from './button';
-import statusTransitions from '../constants/statusTransitions';
-import type { PackageFilter } from '../types/packageFilter';
+import CustomButton from '../button';
+import statusTransitions from '../../constants/statusTransitions';
+import type { PackageFilter } from '../../types/packageFilter';
+import './packageFilter.css'
 
 interface PackageFilterProps {
     onFilterChange: (filter: PackageFilter) => void;
@@ -41,9 +42,9 @@ export default function PackageFilterComponent({ onFilterChange, onClearFilter, 
     };
 
     return (
-        <div className="filter-container" style={{ display: 'flex', marginBottom: '20px', padding: '20px', justifyContent: 'center' }}>
-            <form onSubmit={handleFilterSubmit} style={{ display: 'flex', gap: '15px', alignItems: 'end', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="filter-container">
+            <form onSubmit={handleFilterSubmit}>
+                <div className="package-input-container">
                     <input
                         id="packageId"
                         type="number"
@@ -51,26 +52,16 @@ export default function PackageFilterComponent({ onFilterChange, onClearFilter, 
                         value={packageId}
                         onChange={(e) => setPackageId(e.target.value)}
                         placeholder="Find packages containing ID"
-                        style={{
-                            padding: '8px',
-                            border: '1px solid #ccc',
-                            borderRadius: '4px',
-                            width: '205px'
-                        }}
+                        className="packageId-input"
                     />
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                <div className="package-input-container">
                     <select
                         id="status"
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
-                        style={{
-                            padding: '8px',
-                            border: '1px solid #ccc',
-                            borderRadius: '4px',
-                            minWidth: '150px'
-                        }}
+                        className="packageStatus-input"
                     >
                         <option value="">Select Status</option>
                         {PACKAGE_STATUSES.map((statusOption) => (
@@ -81,7 +72,7 @@ export default function PackageFilterComponent({ onFilterChange, onClearFilter, 
                     </select>
                 </div>
 
-                <div style={{ display: 'flex', gap: '10px' }}>
+                <div className="button-container">
                     <CustomButton
                         type="submit"
                         label="Apply Filter"
